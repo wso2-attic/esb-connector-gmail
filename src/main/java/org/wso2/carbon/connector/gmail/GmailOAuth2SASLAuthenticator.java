@@ -34,71 +34,65 @@ import java.util.Properties;
  */
 public final class GmailOAuth2SASLAuthenticator {
 
-	/**
-	 * Making the default constructor private since Utility classes should not
-	 * have a public constructors
-	 */
-	private GmailOAuth2SASLAuthenticator() {
-	}
+    /**
+     * Making the default constructor private since Utility classes should not
+     * have a public constructors
+     */
+    private GmailOAuth2SASLAuthenticator() {
+    }
 
-	/**
-	 * Installing the OAuth2 SASL provider.
-	 */
-	public static void initializeOAuth2Provider() {
-		OAuth2Authenticator.initialize();
-	}
+    /**
+     * Installing the OAuth2 SASL provider.
+     */
+    public static void initializeOAuth2Provider() {
+        OAuth2Authenticator.initialize();
+    }
 
-	/**
-	 * Connects to IMAPStore
-	 * 
-	 * @param username
-	 *            user name
-	 * @param oauthToken
-	 *            user's OAuth access token
-	 * @return authenticated IMAPSore instance
-	 * @throws MessagingException
-	 *             as a result of authentication failure
-	 */
-	public static IMAPStore connectToIMAP(String username, String oauthToken)
-	                                                                         throws MessagingException {
-		Properties props = new Properties();
-		props.put("mail.imaps.sasl.enable", GmailConstants.GMAIL_TRUE_VALUE);
-		props.put("mail.imaps.sasl.mechanisms", GmailConstants.GMAIL_AUTHENTICATION_MECHANISM);
-		props.put(OAuth2SaslClientFactory.OAUTH_TOKEN_PROP, oauthToken);
+    /**
+     * Connects to IMAPStore
+     *
+     * @param username   user name
+     * @param oauthToken user's OAuth access token
+     * @return authenticated IMAPSore instance
+     * @throws MessagingException as a result of authentication failure
+     */
+    public static IMAPStore connectToIMAP(String username, String oauthToken)
+            throws MessagingException {
+        Properties props = new Properties();
+        props.put("mail.imaps.sasl.enable", GmailConstants.GMAIL_TRUE_VALUE);
+        props.put("mail.imaps.sasl.mechanisms", GmailConstants.GMAIL_AUTHENTICATION_MECHANISM);
+        props.put(OAuth2SaslClientFactory.OAUTH_TOKEN_PROP, oauthToken);
 
-		Session session = Session.getInstance(props);
-		final URLName unusedUrlName = null;
-		final String emptyPassword = "";
-		IMAPSSLStore store = new IMAPSSLStore(session, unusedUrlName);
-		store.connect(GmailConstants.GMAIL_IMAP_HOST, GmailConstants.GMAIL_IMAP_PORT, username,
-		              emptyPassword);
-		return store;
-	}
+        Session session = Session.getInstance(props);
+        final URLName unusedUrlName = null;
+        final String emptyPassword = "";
+        IMAPSSLStore store = new IMAPSSLStore(session, unusedUrlName);
+        store.connect(GmailConstants.GMAIL_IMAP_HOST, GmailConstants.GMAIL_IMAP_PORT, username,
+                emptyPassword);
+        return store;
+    }
 
-	/**
-	 * Connects to SMTP transport and mail session.
-	 * 
-	 * @param username
-	 *            user name
-	 * @param accessToken
-	 *            OAuth access token of the user
-	 * @return {@link GmailSMTPConnectionObject} instance
-	 * @throws MessagingException
-	 *             as a result of authentication failure
-	 */
-	public static GmailSMTPConnectionObject connectToSMTP(String username, String accessToken)
-	                                                                                          throws MessagingException {
-		Properties props = new Properties();
-		props.put("mail.smtp.starttls.enable", GmailConstants.GMAIL_TRUE_VALUE);
-		props.put("mail.smtp.starttls.required", GmailConstants.GMAIL_TRUE_VALUE);
-		props.put("mail.smtp.sasl.enable", GmailConstants.GMAIL_TRUE_VALUE);
-		props.put("mail.smtp.sasl.mechanisms", GmailConstants.GMAIL_AUTHENTICATION_MECHANISM);
-		props.put(OAuth2SaslClientFactory.OAUTH_TOKEN_PROP, accessToken);
+    /**
+     * Connects to SMTP transport and mail session.
+     *
+     * @param username    user name
+     * @param accessToken OAuth access token of the user
+     * @return {@link GmailSMTPConnectionObject} instance
+     * @throws MessagingException as a result of authentication failure
+     */
+    public static GmailSMTPConnectionObject connectToSMTP(String username, String accessToken)
+            throws MessagingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.starttls.enable", GmailConstants.GMAIL_TRUE_VALUE);
+        props.put("mail.smtp.starttls.required", GmailConstants.GMAIL_TRUE_VALUE);
+        props.put("mail.smtp.sasl.enable", GmailConstants.GMAIL_TRUE_VALUE);
+        props.put("mail.smtp.sasl.mechanisms", GmailConstants.GMAIL_AUTHENTICATION_MECHANISM);
+        props.put(OAuth2SaslClientFactory.OAUTH_TOKEN_PROP, accessToken);
 
-		Session session = Session.getInstance(props);
-		SMTPTransport transport = new SMTPTransport(session, null);
-		transport.connect(GmailConstants.GMAIL_SMTP_HOST, GmailConstants.GMAIL_SMTP_PORT, username,
-		                  "");
-		return new GmailSMTPConnectionObject(session, transport);
-	}
+        Session session = Session.getInstance(props);
+        SMTPTransport transport = new SMTPTransport(session, null);
+        transport.connect(GmailConstants.GMAIL_SMTP_HOST, GmailConstants.GMAIL_SMTP_PORT, username,
+                "");
+        return new GmailSMTPConnectionObject(session, transport);
+    }
 }

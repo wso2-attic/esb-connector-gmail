@@ -18,14 +18,13 @@
 
 package org.wso2.carbon.connector.gmail;
 
-import org.apache.synapse.MessageContext;
-import org.wso2.carbon.connector.core.AbstractConnector;
-import org.wso2.carbon.connector.core.ConnectException;
-
 import com.google.code.com.sun.mail.imap.IMAPStore;
 import com.google.code.javax.mail.MessagingException;
 import com.google.code.javax.mail.search.GmailThreadIDTerm;
 import com.google.code.javax.mail.search.SearchTerm;
+import org.apache.synapse.MessageContext;
+import org.wso2.carbon.connector.core.AbstractConnector;
+import org.wso2.carbon.connector.core.ConnectException;
 
 /**
  * This class performs the "delete mail thread" operation.
@@ -34,50 +33,50 @@ import com.google.code.javax.mail.search.SearchTerm;
  */
 public class GmailDeleteMailThread extends AbstractConnector {
 
-	/*
-	 * Reads the thread ID from the message context and moves the belonging
-	 * e-mail messages to the Gmail trash folder.
-	 */
-	@Override
-	public void connect(MessageContext messageContext) {
-		try {
-			// Reading thread ID from the message context
-			String threadID =
-			                  GmailUtils.lookupFunctionParam(messageContext,
-			                                                 GmailConstants.GMAIL_PARAM_THREADID);
+    /*
+     * Reads the thread ID from the message context and moves the belonging
+     * e-mail messages to the Gmail trash folder.
+     */
+    @Override
+    public void connect(MessageContext messageContext) {
+        try {
+            // Reading thread ID from the message context
+            String threadID =
+                    GmailUtils.lookupFunctionParam(messageContext,
+                            GmailConstants.GMAIL_PARAM_THREADID);
 
-			// Validating the thread ID
-			if (threadID == null || "".equals(threadID.trim())) {
+            // Validating the thread ID
+            if (threadID == null || "".equals(threadID.trim())) {
 
-				String errorLog = "Inalid thread ID";
-				log.error(errorLog);
-				ConnectException connectException = new ConnectException(errorLog);
-				GmailUtils.storeErrorResponseStatus(messageContext,
-				                                    connectException,
-				                                    GmailErrorCodes.GMAIL_ERROR_CODE_CONNECT_EXCEPTION);
-				handleException(connectException.getMessage(), connectException, messageContext);
-			}
+                String errorLog = "Inalid thread ID";
+                log.error(errorLog);
+                ConnectException connectException = new ConnectException(errorLog);
+                GmailUtils.storeErrorResponseStatus(messageContext,
+                        connectException,
+                        GmailErrorCodes.GMAIL_ERROR_CODE_CONNECT_EXCEPTION);
+                handleException(connectException.getMessage(), connectException, messageContext);
+            }
 
-			GmailIMAPClientLoader imapClientLoader = new GmailIMAPClientLoader();
-			log.info("Loading the IMAPStore");
-			IMAPStore store = imapClientLoader.loadIMAPStore(messageContext);
-			SearchTerm term = new GmailThreadIDTerm(threadID);
-			GmailUtils.deleteMails(store, term, messageContext,
-			                       GmailConstants.GMAIL_DELETE_MAIL_THREAD_RESPONSE);
-			log.info("Successfully completed the \"delete mail thread\" operation");
-		} catch (MessagingException e) {
-			GmailUtils.storeErrorResponseStatus(messageContext,
-			                                    e,
-			                                    GmailErrorCodes.GMAIL_ERROR_CODE_MESSAGING_EXCEPTION);
-			handleException(e.getMessage(), e, messageContext);
-		} catch (ConnectException e) {
-			GmailUtils.storeErrorResponseStatus(messageContext, e,
-			                                    GmailErrorCodes.GMAIL_ERROR_CODE_CONNECT_EXCEPTION);
-			handleException(e.getMessage(), e, messageContext);
-		} catch (Exception e) {
-			GmailUtils.storeErrorResponseStatus(messageContext, e,
-			                                    GmailErrorCodes.GMAIL_COMMON_EXCEPTION);
-			handleException(e.getMessage(), e, messageContext);
-		}
-	}
+            GmailIMAPClientLoader imapClientLoader = new GmailIMAPClientLoader();
+            log.info("Loading the IMAPStore");
+            IMAPStore store = imapClientLoader.loadIMAPStore(messageContext);
+            SearchTerm term = new GmailThreadIDTerm(threadID);
+            GmailUtils.deleteMails(store, term, messageContext,
+                    GmailConstants.GMAIL_DELETE_MAIL_THREAD_RESPONSE);
+            log.info("Successfully completed the \"delete mail thread\" operation");
+        } catch (MessagingException e) {
+            GmailUtils.storeErrorResponseStatus(messageContext,
+                    e,
+                    GmailErrorCodes.GMAIL_ERROR_CODE_MESSAGING_EXCEPTION);
+            handleException(e.getMessage(), e, messageContext);
+        } catch (ConnectException e) {
+            GmailUtils.storeErrorResponseStatus(messageContext, e,
+                    GmailErrorCodes.GMAIL_ERROR_CODE_CONNECT_EXCEPTION);
+            handleException(e.getMessage(), e, messageContext);
+        } catch (Exception e) {
+            GmailUtils.storeErrorResponseStatus(messageContext, e,
+                    GmailErrorCodes.GMAIL_COMMON_EXCEPTION);
+            handleException(e.getMessage(), e, messageContext);
+        }
+    }
 }

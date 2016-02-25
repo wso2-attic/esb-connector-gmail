@@ -18,14 +18,13 @@
 
 package org.wso2.carbon.connector.gmail;
 
-import org.apache.synapse.MessageContext;
-import org.wso2.carbon.connector.core.AbstractConnector;
-import org.wso2.carbon.connector.core.ConnectException;
-
 import com.google.code.com.sun.mail.imap.IMAPStore;
 import com.google.code.javax.mail.MessagingException;
 import com.google.code.javax.mail.search.GmailThreadIDTerm;
 import com.google.code.javax.mail.search.SearchTerm;
+import org.apache.synapse.MessageContext;
+import org.wso2.carbon.connector.core.AbstractConnector;
+import org.wso2.carbon.connector.core.ConnectException;
 
 /**
  * This class performs the "set labels" operation which,
@@ -33,61 +32,61 @@ import com.google.code.javax.mail.search.SearchTerm;
  */
 public class GmailSetLabels extends AbstractConnector {
 
-	/*
-	 * Sets labels to a mail thread.
-	 */
-	@Override
-	public void connect(MessageContext messageContext) {
-		try {
-			// Reads mandatory parameters from the message context.
-			String threadID =
-			                  GmailUtils.lookupFunctionParam(messageContext,
-			                                                 GmailConstants.GMAIL_PARAM_THREADID);
-			String labels =
-			                GmailUtils.lookupFunctionParam(messageContext,
-			                                               GmailConstants.GMAIL_PARAM_LABELS);
+    /*
+     * Sets labels to a mail thread.
+     */
+    @Override
+    public void connect(MessageContext messageContext) {
+        try {
+            // Reads mandatory parameters from the message context.
+            String threadID =
+                    GmailUtils.lookupFunctionParam(messageContext,
+                            GmailConstants.GMAIL_PARAM_THREADID);
+            String labels =
+                    GmailUtils.lookupFunctionParam(messageContext,
+                            GmailConstants.GMAIL_PARAM_LABELS);
 
-			// Validating mandatory input parameters
-			if (threadID == null || "".equals(threadID.trim())) {
-				String errorLog = "Invalid threadID";
-				log.error(errorLog);
-				ConnectException connectException = new ConnectException(errorLog);
-				GmailUtils.storeErrorResponseStatus(messageContext,
-				                                    connectException,
-				                                    GmailErrorCodes.GMAIL_ERROR_CODE_CONNECT_EXCEPTION);
-				handleException(connectException.getMessage(), connectException, messageContext);
-			}
-			if (labels == null || "".equals(labels.trim())) {
-				String errorLog = "No label names are found";
-				log.error(errorLog);
-				ConnectException connectException = new ConnectException(errorLog);
-				GmailUtils.storeErrorResponseStatus(messageContext,
-				                                    connectException,
-				                                    GmailErrorCodes.GMAIL_ERROR_CODE_CONNECT_EXCEPTION);
-				handleException(connectException.getMessage(), connectException, messageContext);
-			}
-			String[] labelNames = labels.split(",");
+            // Validating mandatory input parameters
+            if (threadID == null || "".equals(threadID.trim())) {
+                String errorLog = "Invalid threadID";
+                log.error(errorLog);
+                ConnectException connectException = new ConnectException(errorLog);
+                GmailUtils.storeErrorResponseStatus(messageContext,
+                        connectException,
+                        GmailErrorCodes.GMAIL_ERROR_CODE_CONNECT_EXCEPTION);
+                handleException(connectException.getMessage(), connectException, messageContext);
+            }
+            if (labels == null || "".equals(labels.trim())) {
+                String errorLog = "No label names are found";
+                log.error(errorLog);
+                ConnectException connectException = new ConnectException(errorLog);
+                GmailUtils.storeErrorResponseStatus(messageContext,
+                        connectException,
+                        GmailErrorCodes.GMAIL_ERROR_CODE_CONNECT_EXCEPTION);
+                handleException(connectException.getMessage(), connectException, messageContext);
+            }
+            String[] labelNames = labels.split(",");
 
-			GmailIMAPClientLoader imapClientLoader = new GmailIMAPClientLoader();
-			log.info("Loading the IMAPStore");
-			IMAPStore store = imapClientLoader.loadIMAPStore(messageContext);
-			SearchTerm term = new GmailThreadIDTerm(threadID);
-			GmailUtils.setLabels(store, term, messageContext, labelNames,
-			                     GmailConstants.GMAIL_SET_LABELS_RESPONSE);
-			log.info("Successfully completed the \"set labels\" operation");
-		} catch (MessagingException e) {
-			GmailUtils.storeErrorResponseStatus(messageContext,
-			                                    e,
-			                                    GmailErrorCodes.GMAIL_ERROR_CODE_MESSAGING_EXCEPTION);
-			handleException(e.getMessage(), e, messageContext);
-		} catch (ConnectException e) {
-			GmailUtils.storeErrorResponseStatus(messageContext, e,
-			                                    GmailErrorCodes.GMAIL_ERROR_CODE_CONNECT_EXCEPTION);
-			handleException(e.getMessage(), e, messageContext);
-		} catch (Exception e) {
-			GmailUtils.storeErrorResponseStatus(messageContext, e,
-			                                    GmailErrorCodes.GMAIL_COMMON_EXCEPTION);
-			handleException(e.getMessage(), e, messageContext);
-		}
-	}
+            GmailIMAPClientLoader imapClientLoader = new GmailIMAPClientLoader();
+            log.info("Loading the IMAPStore");
+            IMAPStore store = imapClientLoader.loadIMAPStore(messageContext);
+            SearchTerm term = new GmailThreadIDTerm(threadID);
+            GmailUtils.setLabels(store, term, messageContext, labelNames,
+                    GmailConstants.GMAIL_SET_LABELS_RESPONSE);
+            log.info("Successfully completed the \"set labels\" operation");
+        } catch (MessagingException e) {
+            GmailUtils.storeErrorResponseStatus(messageContext,
+                    e,
+                    GmailErrorCodes.GMAIL_ERROR_CODE_MESSAGING_EXCEPTION);
+            handleException(e.getMessage(), e, messageContext);
+        } catch (ConnectException e) {
+            GmailUtils.storeErrorResponseStatus(messageContext, e,
+                    GmailErrorCodes.GMAIL_ERROR_CODE_CONNECT_EXCEPTION);
+            handleException(e.getMessage(), e, messageContext);
+        } catch (Exception e) {
+            GmailUtils.storeErrorResponseStatus(messageContext, e,
+                    GmailErrorCodes.GMAIL_COMMON_EXCEPTION);
+            handleException(e.getMessage(), e, messageContext);
+        }
+    }
 }

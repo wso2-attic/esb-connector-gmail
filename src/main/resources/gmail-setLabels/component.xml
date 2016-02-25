@@ -18,12 +18,12 @@
 -->
 
 <component name="gmail-setLabels" type="synapse/template">
-	<subComponents>
-		<component name="setLabels">
-			<file>setLabels.xml</file>
-			<description>Set labels to the e-mail thread which is specified by its
-				thread ID
-			</description>
-		</component>
-	</subComponents>
+    <subComponents>
+        <component name="setLabels">
+            <file>setLabels.xml</file>
+            <description>Set labels to the e-mail thread which is specified by its
+                thread ID
+            </description>
+        </component>
+    </subComponents>
 </component>

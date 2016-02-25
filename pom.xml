@@ -42,7 +42,7 @@
         <integration.base.version>1.0.1</integration.base.version>
     </properties>
     <dependencies>
-	  <dependency>
+        <dependency>
             <groupId>com.google.code</groupId>
             <artifactId>java-gmail-imap</artifactId>
             <version>1.4.4-gm-ext-0.5</version>

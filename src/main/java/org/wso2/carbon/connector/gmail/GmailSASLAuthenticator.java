@@ -32,57 +32,51 @@ import java.util.Properties;
  */
 public final class GmailSASLAuthenticator {
 
-	/**
-	 * Making the default constructor private since Utility classes should not
-	 * have a public constructors
-	 */
-	private GmailSASLAuthenticator() {
-	}
+    /**
+     * Making the default constructor private since Utility classes should not
+     * have a public constructors
+     */
+    private GmailSASLAuthenticator() {
+    }
 
-	/**
-	 * Connects to IMAPStore
-	 * 
-	 * @param username
-	 *            user name
-	 * @param password
-	 *            password of the user
-	 * @return the authenticated IMAPSore instance
-	 * @throws MessagingException
-	 *             as a result of authentication failure
-	 */
-	public static IMAPStore connectToIMAP(String username, String password)
-	                                                                       throws MessagingException {
-		Properties properties = System.getProperties();
-		properties.setProperty("mail.store.protocol", "imaps");
-		Session session = Session.getDefaultInstance(properties, null);
-		IMAPSSLStore imapStore = new IMAPSSLStore(session, new URLName("http://imap.gmail.com"));
-		imapStore.connect(username, password);
-		return imapStore;
-	}
+    /**
+     * Connects to IMAPStore
+     *
+     * @param username user name
+     * @param password password of the user
+     * @return the authenticated IMAPSore instance
+     * @throws MessagingException as a result of authentication failure
+     */
+    public static IMAPStore connectToIMAP(String username, String password)
+            throws MessagingException {
+        Properties properties = System.getProperties();
+        properties.setProperty("mail.store.protocol", "imaps");
+        Session session = Session.getDefaultInstance(properties, null);
+        IMAPSSLStore imapStore = new IMAPSSLStore(session, new URLName("http://imap.gmail.com"));
+        imapStore.connect(username, password);
+        return imapStore;
+    }
 
-	/**
-	 * Connects to SMTP transport and mail session.
-	 * 
-	 * @param username
-	 *            user name
-	 * @param password
-	 *            password of the user
-	 * @return {@link GmailSMTPConnectionObject} instance
-	 * @throws MessagingException
-	 *             as a result of authentication failure
-	 */
-	public static GmailSMTPConnectionObject connectToSMTPSession(final String username,
-	                                                             final String password)
-	                                                                                   throws MessagingException {
-		Properties properties = new Properties();
-		properties.put("mail.smtp.auth", true);
-		properties.put("mail.smtp.starttls.enable", true);
-		properties.put("mail.smtp.host", "smtp.gmail.com");
-		properties.put(GmailConstants.GMAIL_SMTP_HOST, GmailConstants.GMAIL_SMTP_PORT);
-		Session session = Session.getInstance(properties);
-		SMTPTransport transport = new SMTPTransport(session, null);
-		transport.connect(GmailConstants.GMAIL_SMTP_HOST, GmailConstants.GMAIL_SMTP_PORT, username,
-		                  password);
-		return new GmailSMTPConnectionObject(session, transport);
-	}
+    /**
+     * Connects to SMTP transport and mail session.
+     *
+     * @param username user name
+     * @param password password of the user
+     * @return {@link GmailSMTPConnectionObject} instance
+     * @throws MessagingException as a result of authentication failure
+     */
+    public static GmailSMTPConnectionObject connectToSMTPSession(final String username,
+                                                                 final String password)
+            throws MessagingException {
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", true);
+        properties.put("mail.smtp.starttls.enable", true);
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put(GmailConstants.GMAIL_SMTP_HOST, GmailConstants.GMAIL_SMTP_PORT);
+        Session session = Session.getInstance(properties);
+        SMTPTransport transport = new SMTPTransport(session, null);
+        transport.connect(GmailConstants.GMAIL_SMTP_HOST, GmailConstants.GMAIL_SMTP_PORT, username,
+                password);
+        return new GmailSMTPConnectionObject(session, transport);
+    }
 }

@@ -23,35 +23,35 @@ package org.wso2.carbon.connector.gmail;
  */
 public final class GmailErrorCodes {
 
-	/**
-	 * Making the default constructor private since Utility classes should not
-	 * have a public constructors
-	 */
-	private GmailErrorCodes() {
-	}
+    /**
+     * Making the default constructor private since Utility classes should not
+     * have a public constructors
+     */
+    private GmailErrorCodes() {
+    }
 
-	/**
-	 * Error code for connect exception.
-	 */
-	public static final int GMAIL_ERROR_CODE_CONNECT_EXCEPTION = 700001;
+    /**
+     * Error code for connect exception.
+     */
+    public static final int GMAIL_ERROR_CODE_CONNECT_EXCEPTION = 700001;
 
-	/**
-	 * Error code for messaging exception.
-	 */
-	public static final int GMAIL_ERROR_CODE_MESSAGING_EXCEPTION = 700002;
+    /**
+     * Error code for messaging exception.
+     */
+    public static final int GMAIL_ERROR_CODE_MESSAGING_EXCEPTION = 700002;
 
-	/**
-	 * Error code for number format exception.
-	 */
-	public static final int GMAIL_ERROR_CODE_NUMBER_FORMAT_EXCEPTION = 700003;
+    /**
+     * Error code for number format exception.
+     */
+    public static final int GMAIL_ERROR_CODE_NUMBER_FORMAT_EXCEPTION = 700003;
 
-	/**
-	 * Error code for IO exception.
-	 */
-	public static final int GMAIL_ERROR_CODE_IO_EXCEPTION = 700004;
+    /**
+     * Error code for IO exception.
+     */
+    public static final int GMAIL_ERROR_CODE_IO_EXCEPTION = 700004;
 
-	/**
-	 * Error code for common exceptions.
-	 */
-	public static final int GMAIL_COMMON_EXCEPTION = 700005;
+    /**
+     * Error code for common exceptions.
+     */
+    public static final int GMAIL_COMMON_EXCEPTION = 700005;
 }

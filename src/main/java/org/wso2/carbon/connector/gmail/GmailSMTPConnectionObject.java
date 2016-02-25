@@ -27,41 +27,39 @@ import com.google.code.javax.mail.Session;
  */
 public class GmailSMTPConnectionObject {
 
-	/**
-	 * class variable to store {@link Session} instance.
-	 */
-	private Session session;
+    /**
+     * class variable to store {@link Session} instance.
+     */
+    private Session session;
 
-	/**
-	 * Class variable to store {@link SMTPTransport} instance.
-	 */
-	private SMTPTransport transport;
+    /**
+     * Class variable to store {@link SMTPTransport} instance.
+     */
+    private SMTPTransport transport;
 
-	/**
-	 * Constructor of the {@link GmailSMTPConnectionObject} class
-	 * 
-	 * @param session
-	 *            Authenticated {@link Session} instance
-	 * @param transport
-	 *            Authenticated and connected {@link SMTPTransport} instance
-	 */
-	public GmailSMTPConnectionObject(Session session, SMTPTransport transport) {
-		this.session = session;
-		this.transport = transport;
-	}
+    /**
+     * Constructor of the {@link GmailSMTPConnectionObject} class
+     *
+     * @param session   Authenticated {@link Session} instance
+     * @param transport Authenticated and connected {@link SMTPTransport} instance
+     */
+    public GmailSMTPConnectionObject(Session session, SMTPTransport transport) {
+        this.session = session;
+        this.transport = transport;
+    }
 
-	/**
-	 * @return Stored {@link Session}
-	 */
-	public Session getSession() {
-		return this.session;
-	}
+    /**
+     * @return Stored {@link Session}
+     */
+    public Session getSession() {
+        return this.session;
+    }
 
-	/**
-	 * @return Stored {@link SMTPTransportM}
-	 */
-	public SMTPTransport getTransport() {
-		return this.transport;
-	}
+    /**
+     * @return Stored {@link SMTPTransportM}
+     */
+    public SMTPTransport getTransport() {
+        return this.transport;
+    }
 
 }

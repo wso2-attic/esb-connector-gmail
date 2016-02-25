@@ -18,12 +18,11 @@
 
 package org.wso2.carbon.connector.gmail;
 
+import com.google.code.javax.mail.MessagingException;
 import org.apache.synapse.MessageContext;
 import org.apache.synapse.core.axis2.Axis2MessageContext;
 import org.wso2.carbon.connector.core.AbstractConnector;
 import org.wso2.carbon.connector.core.ConnectException;
-
-import com.google.code.javax.mail.MessagingException;
 
 /**
  * Class which terminates the authenticated IMAP and SMTP connections
@@ -31,26 +30,26 @@ import com.google.code.javax.mail.MessagingException;
  */
 public class GmailEndSession extends AbstractConnector {
 
-	/*
-	 * Terminates the IMAP and SMTP sessions.
-	 */
-	@Override
-	public void connect(MessageContext messageContext) throws ConnectException {
-		try {
-			org.apache.axis2.context.MessageContext axis2MessageContext =
-			                                                              ((Axis2MessageContext) messageContext).getAxis2MessageContext();
-			GmailUtils.closeConnection(axis2MessageContext);
-			log.info("Successfully terminated the session");
+    /*
+     * Terminates the IMAP and SMTP sessions.
+     */
+    @Override
+    public void connect(MessageContext messageContext) throws ConnectException {
+        try {
+            org.apache.axis2.context.MessageContext axis2MessageContext =
+                    ((Axis2MessageContext) messageContext).getAxis2MessageContext();
+            GmailUtils.closeConnection(axis2MessageContext);
+            log.info("Successfully terminated the session");
 
-		} catch (MessagingException e) {
-			GmailUtils.storeErrorResponseStatus(messageContext,
-			                                    e,
-			                                    GmailErrorCodes.GMAIL_ERROR_CODE_MESSAGING_EXCEPTION);
-			handleException(e.getMessage(), e, messageContext);
-		} catch (Exception e) {
-			GmailUtils.storeErrorResponseStatus(messageContext, e,
-			                                    GmailErrorCodes.GMAIL_COMMON_EXCEPTION);
-			handleException(e.getMessage(), e, messageContext);
-		}
-	}
+        } catch (MessagingException e) {
+            GmailUtils.storeErrorResponseStatus(messageContext,
+                    e,
+                    GmailErrorCodes.GMAIL_ERROR_CODE_MESSAGING_EXCEPTION);
+            handleException(e.getMessage(), e, messageContext);
+        } catch (Exception e) {
+            GmailUtils.storeErrorResponseStatus(messageContext, e,
+                    GmailErrorCodes.GMAIL_COMMON_EXCEPTION);
+            handleException(e.getMessage(), e, messageContext);
+        }
+    }
 }
