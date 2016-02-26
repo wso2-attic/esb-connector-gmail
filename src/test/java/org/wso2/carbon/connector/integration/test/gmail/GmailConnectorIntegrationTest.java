@@ -47,7 +47,7 @@ import java.util.*;
 
 public class GmailConnectorIntegrationTest extends ESBIntegrationTest {
 
-    private static final String CONNECTOR_NAME = "gmail-connector-1.0.0";
+    private static final String CONNECTOR_NAME = "gmail-connector-1.0.1-SNAPSHOT";
 
     private static final float SLEEP_TIMER_PROGRESSION_FACTOR = 0.5f;
 
